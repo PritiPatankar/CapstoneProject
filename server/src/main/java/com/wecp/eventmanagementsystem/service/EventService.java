@@ -19,8 +19,15 @@ public class EventService {
         return eventRepository.findAll();
     }
 
-    public Event getEventsById(Long id){
-        return eventRepository.findById(id).orElse(null);
+    public Event getEventsById(Long id) {
+        Event e = eventRepository.findById(id).orElse(null);
+        if(e == null){
+            throw new EntityNotFoundException("Event not found!");
+        }
+        else{
+            return e;
+        }
+        
     }
 
     public Event createEvent(Event event){
@@ -29,6 +36,7 @@ public class EventService {
 
     public Event updateEventById(Long id, Event event){
         Event e = eventRepository.findById(id).orElse(null);
+
         if(e != null){
             e.setAllocations(event.getAllocations());
             e.setDateTime(event.getDateTime());
